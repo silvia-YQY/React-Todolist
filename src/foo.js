@@ -1,4 +1,4 @@
 export default function(){
-	cosnole.log('I get called from print.js!');
+	console.log('I get YYYYYYYYYYYYY from print.js!');
   return '快点放假啊！！！'
 }
