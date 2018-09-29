@@ -11,7 +11,8 @@ function component() {
 	element.html(_.join(['Hello', 'webpack'], ' '))
 	console.log('foo：',foo)
 	console.log('foo（）：',foo())
-  return element.get(0);
+	return element.get(0);
+	
 }
 
 document.body.appendChild(component());
