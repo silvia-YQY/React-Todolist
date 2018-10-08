@@ -22,20 +22,47 @@ class Hello extends React.Component<IProps, IState> {
 		};
 		this.arr2 = '[2]'
 		this.num = 1
-		console.log('我已经在 constructor 里将 props 和 state 初始化好了')
-
-
-
 		
+		console.log('我已经在 constructor 里将 props 和 state 初始化好了')
+	
 	}
+	// Mount 
 	public componentWillMount() {
 		// setInterval(() => { // 搜索「JS 箭头函数 MDN」
 		// 	this.incrementMultiple()
 		// }, 5000)
+		
 		console.log('已经挂载到页面里了')
 	}
 	public componentDidMount(){
 		console.log('挂载完成了')
+	}
+	
+	// Update
+	public componentWillReceiveProps(nextProps:any){		
+		console.log('更新前：',nextProps)
+	}
+	public shouldComponentUpdate() : boolean{		
+		console.log('判断是否更新')
+		return true
+	}
+	public componentWillUpdate(nextProps:any){		
+		console.log('我要更新组件啦！：',nextProps)
+	}
+	public componentDidUpdate(){		
+		console.log(' 更新完毕啦！')
+	}
+
+	// Unmount
+	public componentWillUnmount(){		
+		console.log(' 我要死啦！')
+	}
+
+	// 功能性方法
+	public updating(){
+		
+		this.setState({ count: this.state.count + 1 });
+		console.log("晕倒到我了！！")
 	}
 	public increment(state: any, props: any) {
 		return { count: state.count + 1 };
