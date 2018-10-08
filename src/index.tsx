@@ -1,6 +1,6 @@
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
-// import App from './App';
+import App from './App';
 import Hello from './components/Hello';
 import './index.css';
 
@@ -24,6 +24,7 @@ function tick() {
     <div>
       <h1>Hello, world!</h1>
       <h2>It is {new Date().toLocaleTimeString()}.</h2>
+			<App />
 			<Hello name="TypeScript" enthusiasmLevel={10} />,
     </div>
   );

@@ -7,18 +7,25 @@ export interface IProps {
 }
 
 export interface IState {
-	date: string;
+	date: Date;
 }
 
 class Hello extends React.Component<IProps, IState> {
-	public arr2 : string;
+	public arr2: string;
 	constructor(props: any) {
 		super(props)
 		this.state = {
-			date: 'ppp',
+			date: new Date(),
 		};
-		this.arr2 = '[2]' 
+		this.arr2 = '[2]'
+
 		
+		setInterval(() => { // 搜索「JS 箭头函数 MDN」
+			this.setState({
+				date: new Date() // 更新 date
+			})
+		})
+
 		// 譬如我承继了IProps，和IState，但是我还需要一个arr参数，
 		// 那是否还需要在外面定义接口的形式在承继才能用??
 	}
@@ -26,7 +33,7 @@ class Hello extends React.Component<IProps, IState> {
 		const { name, enthusiasmLevel = 1 } = this.props;
 		const { date } = this.state;
 
-		console.log("state", this.state)  // 这里打印出来是有date：ppp 的。
+		// console.log("state", this.state)  // 这里打印出来是有date：ppp 的。
 		if (enthusiasmLevel <= 0) {
 			throw new Error('You could be a little more enthusiastic. :D');
 		}
