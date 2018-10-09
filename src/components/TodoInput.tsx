@@ -4,12 +4,12 @@ export interface IProps {
 	content: string;
 }
 
-export interface IState {
-	date: Date;
-	count: number;
-}
+// export interface IState {
+// 	date: Date;
+// 	count: number;
+// }
 
-export default class TodoInput extends React.Component<IProps, IState> {
+export default class TodoInput extends React.Component<IProps, {}> {
 	constructor(props: any,state: any) {
 		super(props,state)
 	}

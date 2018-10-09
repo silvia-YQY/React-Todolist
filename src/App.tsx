@@ -1,17 +1,20 @@
 import * as React from 'react';
 import './App.css';
 import TodoInput from "./components/TodoInput"
+import TodoItem from './components/TodoItem'
 
 // export interface IProps {
 // 	// name: string;
 // 	// enthusiasmLevel?: number;
 // }
 
+interface IlistItem {
+	id: number, title: string 
+}
+
 export interface IState {
 	newTodo: string;
-	todoList:  [
-		{ id: number, title: string }
-	];
+	todoList: IlistItem[];
 }
 
 class App extends React.Component<{}, IState> {
@@ -20,14 +23,18 @@ class App extends React.Component<{}, IState> {
 		this.state = {
 			newTodo: 'test',
 			todoList: [
-				{ id: 1, title: '第一个待办' }
+				{id:1, title:'第一个待办'},
+        {id:2, title:'第二个待办'},
 			]
 		}
 	}
 	public render() {
 		const todos = this.state.todoList.map((item, index) => {
-			// console.log("item",item)
-			return <li key="item.id" >{item.title}</li>
+			return ( 
+        <li key="item.id">
+          <TodoItem todo={item} />
+        </li>
+      )
 		})
 		return (
 			<div className="App">
