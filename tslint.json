@@ -11,7 +11,9 @@
 		"no-console": false,
 		"object-literal-sort-keys": false,
 		"comment-format": [false, "check-space"],
-		"ordered-imports": false
+		"ordered-imports": false,
+		"jsx-no-lambda": false,
+		"arrow-parens": false
 	},
 	"jsRules": {
 		"no-console": false
