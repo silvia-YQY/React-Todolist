@@ -89,7 +89,7 @@ class App extends React.Component<{}, IState> {
 						
 					/>
 				</div>
-				<ol>
+				<ol className="todoList">
 					{todos}
 				</ol>
 			</div>

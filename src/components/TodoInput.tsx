@@ -1,4 +1,5 @@
 import * as React from 'react';
+import './TodoInput.css'
 
 export interface IProps {
 	content: string;
@@ -25,6 +26,7 @@ export default class TodoInput extends React.Component<IProps, {}> {
 	}
 	public render() {
 		return <input type="text"
+			className="TodoInput"
 			value={this.props.content}
 			onChange={this.changeTitle}
 			onKeyPress={this.submit} />

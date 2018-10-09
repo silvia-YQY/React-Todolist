@@ -1,4 +1,5 @@
 import * as React from 'react';
+import './TodoItem.css'
 
 export interface IProps {
 	todo: {
@@ -29,7 +30,7 @@ export default class TodoItem extends React.Component<IProps, {}> {
 		this.props.onDelete(e, this.props.todo)
 	}
 	public render() {
-		return <div key={this.props.todo.id} >
+		return <div key={this.props.todo.id} className="TodoItem" >
 			<input type="checkbox" checked={this.props.todo.status === 'completed'}
 				onChange={this.toggle} />
 			{this.props.todo.title}
