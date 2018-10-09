@@ -2,6 +2,8 @@ import * as React from 'react';
 import './App.css';
 import TodoInput from "./components/TodoInput"
 import TodoItem from './components/TodoItem'
+import 'normalize.css'
+import './reset.css'
 
 // export interface IProps {
 // 	// name: string;
