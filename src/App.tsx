@@ -30,6 +30,8 @@ class App extends React.Component<{}, IState> {
 			todoList: []
 		}
 	}
+
+	// 监听回车键，添加待办事项到list
 	public addTodo = (event: any): void => {
 		this.state.todoList.push({
 			id: idMaker(),
@@ -43,21 +45,34 @@ class App extends React.Component<{}, IState> {
 		})
 
 	}
+
+	// 监听输入框改变
 	public changeTitle = (event: any): void => {
 		this.setState({
 			newTodo: event.target.value,
 			todoList: this.state.todoList
 		})
 	}
+
+	// 标记是否完成
 	public toggle = (e: any, todo: any): void => {
 		todo.status = todo.status === 'completed' ? '' : 'completed'
 		this.setState(this.state)
 	}
+
+	public delete = (event: any, todo: any): void => {
+		todo.deleted = true
+		this.setState(this.state)
+	}
+
 	public render() {
 		const todos = this.state.todoList.map((item, index) => {
 			return (
 				<li key={item.id}>
-					<TodoItem todo={item} onToggle={this.toggle} />
+					<TodoItem todo={item} 
+					onToggle={this.toggle}
+					onDelete={this.delete} 
+					/>
 				</li>
 			)
 		})
@@ -67,7 +82,9 @@ class App extends React.Component<{}, IState> {
 				<div className="inputWrapper">
 					<TodoInput content={this.state.newTodo}
 						onChange={this.changeTitle}
-						onSubmit={this.addTodo} />
+						onSubmit={this.addTodo}
+						
+					/>
 				</div>
 				<ol>
 					{todos}
@@ -80,6 +97,8 @@ class App extends React.Component<{}, IState> {
 
 export default App;
 
+
+// id制造器
 let id = 0
 function idMaker() {
 	id += 1
