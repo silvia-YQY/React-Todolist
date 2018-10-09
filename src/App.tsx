@@ -1,5 +1,6 @@
 import * as React from 'react';
 import './App.css';
+import TodoInput from "./components/TodoInput"
 
 // export interface IProps {
 // 	// name: string;
@@ -22,9 +23,6 @@ class App extends React.Component<{}, IState> {
 				{ id: 1, title: '第一个待办' }
 			]
 		}
-		console.log("props",props)
-		console.log("state",state)
-		console.log("this.state",this.state)
 	}
 	public render() {
 		const todos = this.state.todoList.map((item, index) => {
@@ -35,11 +33,10 @@ class App extends React.Component<{}, IState> {
 			<div className="App">
 				<h1>我的待办</h1>
 				<div className="inputWrapper">
-					<input type="text" defaultValue={this.state.newTodo} />
+					<TodoInput content={this.state.newTodo} />
 				</div>
 				<ol>
 					{todos}
-					{/* <li>{this.state.todoList.toString()}</li> */}
 				</ol>
 			</div>
 
