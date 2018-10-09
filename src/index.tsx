@@ -1,22 +1,17 @@
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import App from './App';
-import Hello from './components/Hello';
+// import Hello from './components/Hello';
 import './index.css';
 
 const element = (
 	<div>
-		<h1>Hello, world!</h1>
 		<App />
-		<Hello name="TypeScript" enthusiasmLevel={10} />,
-		<h2>It is {new Date().toLocaleTimeString()}.</h2>
 	</div>
 );
 
 ReactDOM.render(
-	// <App />,
 	element,
-	// <Hello name="TypeScript" enthusiasmLevel={10} />,
 	document.getElementById('root') as HTMLElement
 );
 

@@ -1,22 +1,50 @@
 import * as React from 'react';
 import './App.css';
 
-import logo from './logo.svg';
+// export interface IProps {
+// 	// name: string;
+// 	// enthusiasmLevel?: number;
+// }
 
-class App extends React.Component {
-  public render() {
-    return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h1 className="App-title">Welcome to React</h1>
-        </header>
-        <p className="App-intro">
-          To get started, edit <code>src/App.tsx</code> and save to reload.
-        </p>
-      </div>
-    );
-  }
+export interface IState {
+	newTodo: string;
+	todoList:  [
+		{ id: number, title: string }
+	];
+}
+
+class App extends React.Component<{}, IState> {
+	constructor(props: any,state: any) {
+		super(props,state)		
+		this.state = {
+			newTodo: 'test',
+			todoList: [
+				{ id: 1, title: '第一个待办' }
+			]
+		}
+		console.log("props",props)
+		console.log("state",state)
+		console.log("this.state",this.state)
+	}
+	public render() {
+		const todos = this.state.todoList.map((item, index) => {
+			// console.log("item",item)
+			return <li key="item.id" >{item.title}</li>
+		})
+		return (
+			<div className="App">
+				<h1>我的待办</h1>
+				<div className="inputWrapper">
+					<input type="text" defaultValue={this.state.newTodo} />
+				</div>
+				<ol>
+					{todos}
+					{/* <li>{this.state.todoList.toString()}</li> */}
+				</ol>
+			</div>
+
+		);
+	}
 }
 
 export default App;
