@@ -23,14 +23,11 @@ export interface IState {
 }
 
 class App extends React.Component<{}, IState> {
-	constructor(props: any, state: any) {
+	constructor(props: any, state: object) {
 		super(props, state)
 		this.state = {
 			newTodo: 'pleace input something',
-			todoList: [
-				// {id:1, title:'第一个待办'},
-				// {id:2, title:'第二个待办'},
-			]
+			todoList: []
 		}
 	}
 	public addTodo = (event: any): void => {
@@ -46,17 +43,21 @@ class App extends React.Component<{}, IState> {
 		})
 
 	}
-	public changeTitle = (event:any): void => {
+	public changeTitle = (event: any): void => {
 		this.setState({
 			newTodo: event.target.value,
 			todoList: this.state.todoList
 		})
 	}
+	public toggle = (e: any, todo: any): void => {
+		todo.status = todo.status === 'completed' ? '' : 'completed'
+		this.setState(this.state)
+	}
 	public render() {
 		const todos = this.state.todoList.map((item, index) => {
 			return (
 				<li key={item.id}>
-					<TodoItem todo={item} />
+					<TodoItem todo={item} onToggle={this.toggle} />
 				</li>
 			)
 		})
