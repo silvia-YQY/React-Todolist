@@ -3,6 +3,7 @@ import * as React from 'react';
 export interface IProps {
 	content: string;
 	onSubmit: (e: any) => void
+	onChange: (e: any) => void
 }
 
 // export interface IState {
@@ -14,13 +15,18 @@ export default class TodoInput extends React.Component<IProps, {}> {
 	constructor(props: any, state: any) {
 		super(props, state)
 	}
-	public submit = (e: any): void =>  {
+	public submit = (e: any): void => {
 		if (e.key === 'Enter') {
 			this.props.onSubmit(e)
 		}
 	}
+	public changeTitle = (e: any): void => {
+		this.props.onChange(e)
+	}
 	public render() {
-		return <input type="text" defaultValue={this.props.content}
+		return <input type="text"
+			value={this.props.content}
+			onChange={this.changeTitle}
 			onKeyPress={this.submit} />
 	}
 }

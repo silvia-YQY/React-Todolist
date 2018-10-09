@@ -26,7 +26,7 @@ class App extends React.Component<{}, IState> {
 	constructor(props: any, state: any) {
 		super(props, state)
 		this.state = {
-			newTodo: '',
+			newTodo: 'pleace input something',
 			todoList: [
 				// {id:1, title:'第一个待办'},
 				// {id:2, title:'第二个待办'},
@@ -46,6 +46,12 @@ class App extends React.Component<{}, IState> {
 		})
 
 	}
+	public changeTitle = (event:any): void => {
+		this.setState({
+			newTodo: event.target.value,
+			todoList: this.state.todoList
+		})
+	}
 	public render() {
 		const todos = this.state.todoList.map((item, index) => {
 			return (
@@ -58,7 +64,9 @@ class App extends React.Component<{}, IState> {
 			<div className="App">
 				<h1>我的待办</h1>
 				<div className="inputWrapper">
-					<TodoInput content={this.state.newTodo} onSubmit={this.addTodo} />
+					<TodoInput content={this.state.newTodo}
+						onChange={this.changeTitle}
+						onSubmit={this.addTodo} />
 				</div>
 				<ol>
 					{todos}

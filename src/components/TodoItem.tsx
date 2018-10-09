@@ -14,6 +14,9 @@ export default class TodoItem extends React.Component<IProps, {}> {
 		super(props, state)
 	}
 	public render() {
-		return <div key="this.props.todo.title" >{this.props.todo.title}</div>
+		return <div key="this.props.todo.title" >
+			{this.props.todo.id}
+			{this.props.todo.title}
+		</div>
 	}
 }
