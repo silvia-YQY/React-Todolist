@@ -66,7 +66,10 @@ class App extends React.Component<{}, IState> {
 	}
 
 	public render() {
-		const todos = this.state.todoList.map((item, index) => {
+		const todos = 
+		this.state.todoList
+				.filter((item)=> !item.deleted)
+				.map((item, index) => {
 			return (
 				<li key={item.id}>
 					<TodoItem todo={item} 
