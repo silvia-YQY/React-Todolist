@@ -4,22 +4,19 @@ import TodoInput from "./components/TodoInput"
 import TodoItem from './components/TodoItem'
 import 'normalize.css'
 import './reset.css'
+import * as localStore from './components/localStore'
+import * as Interface from './components/ALLInterface'
 
 // export interface IProps {
 // 	// name: string;
 // 	// enthusiasmLevel?: number;
 // }
 
-interface IlistItem {
-	id: number,
-	title: string,
-	status: null,
-	deleted: boolean
-}
+
 
 export interface IState {
 	newTodo: string;
-	todoList: IlistItem[];
+	todoList: Interface.IlistItem[];
 }
 
 class App extends React.Component<{}, IState> {
@@ -27,8 +24,8 @@ class App extends React.Component<{}, IState> {
 		super(props, state)
 		this.state = {
 			newTodo: 'pleace input something',
-			todoList: []
-		}
+			todoList: localStore.load('todoList') || []
+		}		
 	}
 
 	// 监听回车键，添加待办事项到list
@@ -43,6 +40,7 @@ class App extends React.Component<{}, IState> {
 			newTodo: '',
 			todoList: this.state.todoList
 		})
+		localStore.save('todoList', this.state.todoList)
 
 	}
 
@@ -52,23 +50,26 @@ class App extends React.Component<{}, IState> {
 			newTodo: event.target.value,
 			todoList: this.state.todoList
 		})
+		localStore.save('todoList', this.state.todoList)
 	}
 
 	// 标记是否完成
 	public toggle = (e: any, todo: any): void => {
 		todo.status = todo.status === 'completed' ? '' : 'completed'
 		this.setState(this.state)
+		localStore.save('todoList', this.state.todoList)  
 	}
 
 	public delete = (event: any, todo: any): void => {
 		todo.deleted = true
 		this.setState(this.state)
+		localStore.save('todoList', this.state.todoList)
 	}
 
 	public render() {
 		const todos = 
 		this.state.todoList
-				.filter((item)=> !item.deleted)
+				.filter((item:Interface.IlistItem, index)=> !item.deleted)
 				.map((item, index) => {
 			return (
 				<li key={item.id}>
