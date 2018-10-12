@@ -66,11 +66,11 @@ class App extends React.Component<{}, IState> {
     localStore.save('todoList', this.state.todoList)
   }
 
-	public render() {
+	public render() {		
 		const todos = 
 		this.state.todoList
 				.filter((item:Interface.IlistItem, index)=> !item.deleted)
-				.map((item, index) => {
+				.map((item, index) => {				
 			return (
 				<li key={item.id}>
 					<TodoItem todo={item} 
