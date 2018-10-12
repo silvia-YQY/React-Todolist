@@ -12,14 +12,21 @@ import * as AV from 'leancloud-storage'
 // 	// name: string;
 // 	// enthusiasmLevel?: number;
 // }
-let APP_ID = 'ir3TIhFQBxF8cAtld7O0PsHG-gzGzoHsz';
-let APP_KEY = 'hxW1GTLXAanOHxwQrSYlJLwk';
+const APP_ID = 'ir3TIhFQBxF8cAtld7O0PsHG-gzGzoHsz';
+const APP_KEY = 'hxW1GTLXAanOHxwQrSYlJLwk';
 
 AV.init({
   appId: APP_ID,
   appKey: APP_KEY
 });
 
+const TestObject = AV.Object.extend('TestObject');
+const testObject = new TestObject();
+testObject.save({
+  words: 'Hello World!'
+}).then(() => {
+  alert('LeanCloud Rocks!');
+})
 
 
 export interface IState {
