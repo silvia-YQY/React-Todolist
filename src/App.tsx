@@ -40,8 +40,6 @@ class App extends React.Component<{}, IState> {
 			newTodo: '',
 			todoList: this.state.todoList
 		})
-		localStore.save('todoList', this.state.todoList)
-
 	}
 
 	// 监听输入框改变
@@ -50,21 +48,23 @@ class App extends React.Component<{}, IState> {
 			newTodo: event.target.value,
 			todoList: this.state.todoList
 		})
-		localStore.save('todoList', this.state.todoList)
 	}
 
 	// 标记是否完成
 	public toggle = (e: any, todo: any): void => {
 		todo.status = todo.status === 'completed' ? '' : 'completed'
 		this.setState(this.state)
-		localStore.save('todoList', this.state.todoList)  
 	}
 
 	public delete = (event: any, todo: any): void => {
 		todo.deleted = true
 		this.setState(this.state)
-		localStore.save('todoList', this.state.todoList)
 	}
+
+	// 数据更新钩子
+	public componentDidUpdate(): void{
+    localStore.save('todoList', this.state.todoList)
+  }
 
 	public render() {
 		const todos = 
