@@ -6,11 +6,19 @@ import 'normalize.css'
 import './reset.css'
 import * as localStore from './components/localStore'
 import * as Interface from './components/ALLInterface'
+import * as AV from 'leancloud-storage'
 
 // export interface IProps {
 // 	// name: string;
 // 	// enthusiasmLevel?: number;
 // }
+let APP_ID = 'ir3TIhFQBxF8cAtld7O0PsHG-gzGzoHsz';
+let APP_KEY = 'hxW1GTLXAanOHxwQrSYlJLwk';
+
+AV.init({
+  appId: APP_ID,
+  appKey: APP_KEY
+});
 
 
 
