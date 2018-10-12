@@ -6,27 +6,12 @@ import 'normalize.css'
 import './reset.css'
 import * as localStore from './components/localStore'
 import * as Interface from './components/ALLInterface'
-import * as AV from 'leancloud-storage'
+
 
 // export interface IProps {
 // 	// name: string;
 // 	// enthusiasmLevel?: number;
 // }
-const APP_ID = 'ir3TIhFQBxF8cAtld7O0PsHG-gzGzoHsz';
-const APP_KEY = 'hxW1GTLXAanOHxwQrSYlJLwk';
-
-AV.init({
-  appId: APP_ID,
-  appKey: APP_KEY
-});
-
-const TestObject = AV.Object.extend('TestObject');
-const testObject = new TestObject();
-testObject.save({
-  words: 'Hello World!'
-}).then(() => {
-  alert('LeanCloud Rocks!');
-})
 
 
 export interface IState {
@@ -39,7 +24,7 @@ class App extends React.Component<{}, IState> {
 		super(props, state)
 		this.state = {
 			newTodo: 'pleace input something',
-			todoList: localStore.load('todoList') || []
+			todoList: []
 		}		
 	}
 
@@ -75,11 +60,6 @@ class App extends React.Component<{}, IState> {
 		todo.deleted = true
 		this.setState(this.state)
 	}
-
-	// 数据更新钩子
-	public componentDidUpdate(): void{
-    localStore.save('todoList', this.state.todoList)
-  }
 
 	public render() {
 		const todos = 
