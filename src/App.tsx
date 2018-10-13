@@ -30,7 +30,7 @@ class App extends React.Component<{}, IState> {
 		this.state = {
 			newTodo: 'pleace input something',
 			todoList: [],
-			user: getCurrentUser() || {},
+			user: getCurrentUser() || {}, 
 		}		
 	}
 
