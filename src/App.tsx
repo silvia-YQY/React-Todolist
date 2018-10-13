@@ -6,6 +6,7 @@ import 'normalize.css'
 import './reset.css'
 import * as Interface from './components/ALLInterface'
 import UserDialog from './components/UserDialog'
+import {getCurrentUser} from './components/leancloud'
 
 
 // export interface IProps {
@@ -29,10 +30,7 @@ class App extends React.Component<{}, IState> {
 		this.state = {
 			newTodo: 'pleace input something',
 			todoList: [],
-			user: {
-				username:'',
-				id:''
-			}
+			user: getCurrentUser() || {},
 		}		
 	}
 
