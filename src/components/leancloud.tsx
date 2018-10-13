@@ -10,7 +10,7 @@ AV.init({
 
 export default AV
 
-export function signUp(username: string, password: string, successFn: (user: string) => void, errorFn: any) {
+export function signUp(username: string, password: string, successFn: (user: object) => void, errorFn: any) {
 	// 新建 AVUser 对象实例
 	const user = new AV.User()
 	// 设置用户名

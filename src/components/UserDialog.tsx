@@ -2,11 +2,9 @@ import * as React from 'react';
 import './UserDialog.css'
 import { signUp } from './leancloud'
 
-// export interface IProps {
-// 	name: string;
-// 	enthusiasmLevel?: number;
-// }
-
+export interface IProps {
+	onSignUp:(e: any) => void;
+}
 
 export interface IState {
 	selected: string;
@@ -17,7 +15,7 @@ export interface IState {
 }
 
 
-export default class UserDialog extends React.Component<{}, IState>{
+export default class UserDialog extends React.Component<IProps, IState>{
 	constructor(props: any) {
 		super(props)
 		this.state = {
@@ -36,8 +34,9 @@ export default class UserDialog extends React.Component<{}, IState>{
 	public signUp = (e: any): void => {
 		e.preventDefault()
 		const { username, password } = this.state.formData
-		const successFn = (user: string): void => {
-			console.log(user)
+		const successFn = (user: object): void => {
+			console.log('user',user)
+			this.props.onSignUp.call(null, user)
 		}
 		const errorFn = (error: any) => {
 			console.log(error)
