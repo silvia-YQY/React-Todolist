@@ -18,7 +18,8 @@ export interface IState {
 	newTodo: string;
 	todoList: Interface.IlistItem[];
 	user:{
-		username:string
+		username:string,
+		id:string
 	}
 }
 
@@ -29,7 +30,8 @@ class App extends React.Component<{}, IState> {
 			newTodo: 'pleace input something',
 			todoList: [],
 			user: {
-				username:''
+				username:'',
+				id:''
 			}
 		}		
 	}
@@ -100,7 +102,7 @@ class App extends React.Component<{}, IState> {
 				<ol className="todoList">
 					{todos}
 				</ol>
-				<UserDialog onSignUp={this.onSignUp}/>
+				{this.state.user.id ? null : <UserDialog onSignUp={this.onSignUp}/>}
 			</div>
 
 		);
