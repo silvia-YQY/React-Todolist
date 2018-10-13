@@ -24,7 +24,7 @@ export default class UserDialog extends React.Component<{}, IState>{
 			formData: {
 				username: '',
 				password: '',
-			}
+			} 
 		}
 	}
 	public switch = (e: any): void => {
