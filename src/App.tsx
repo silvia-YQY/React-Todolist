@@ -7,6 +7,7 @@ import './reset.css'
 import * as Interface from './components/ALLInterface'
 import UserDialog from './components/UserDialog'
 import { getCurrentUser, signOut } from './components/leancloud'
+import deepClone from './components/deepClone'
 
 
 // export interface IProps {
@@ -71,24 +72,17 @@ class App extends React.Component<{}, IState> {
 	// 登出
 	public signOut = () => {
 		signOut()
-		const stateCopy = JSON.parse(JSON.stringify(this.state))
+		const stateCopy = deepClone(this.state)
 		stateCopy.user = {}
 		this.setState(stateCopy)
 	}
 
-	// 注册
-	public onSignUp = (user: object) => {
-		const stateCopy = JSON.parse(JSON.stringify(this.state))  // 用 JSON 深拷贝
+	// 注册or登录
+	public onSignUpOrSignIn = (user: object) => {
+		const stateCopy = deepClone(this.state)  // 用 JSON 深拷贝
 		stateCopy.user = user
 		this.setState(stateCopy)
 	}
-
-	// 登录
-	public onSignIn = (user:any) => {
-    const stateCopy = JSON.parse(JSON.stringify(this.state)) 
-    stateCopy.user = user
-    this.setState(stateCopy)
-  }
 
 	public render() {
 		const todos =
@@ -122,8 +116,8 @@ class App extends React.Component<{}, IState> {
 				{this.state.user.id ? 
 					null : 
 					<UserDialog 
-					onSignIn={this.onSignIn}
-					onSignUp={this.onSignUp} />}
+					onSignIn={this.onSignUpOrSignIn}
+					onSignUp={this.onSignUpOrSignIn} />}
 			</div>
 
 		);

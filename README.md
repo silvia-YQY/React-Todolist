@@ -5,3 +5,6 @@
 
 # 启动项目
 `npm start`
+
+# leanCloud
+[leanCloud返回错误码列表](https://leancloud.cn/docs/error_code.html#hash1390182)

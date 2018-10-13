@@ -1,6 +1,7 @@
 import * as React from 'react';
 import './UserDialog.css'
 import { signUp, signIn } from './leancloud'
+import deepClone from './deepClone'
 
 export interface IProps {
 	onSignUp: (e: any) => void;
@@ -44,7 +45,15 @@ export default class UserDialog extends React.Component<IProps, IState>{
 			this.props.onSignUp.call(null, user)
 		}
 		const errorFn = (error: any) => {
-			console.log(error)
+			switch(error.code){
+        case 202:
+          alert('用户名已被占用')
+          break
+        default:
+          alert(error)
+          break
+      }
+
 		}
 		signUp(username, password, successFn, errorFn)   // leancloud 注册
 	}
@@ -57,7 +66,14 @@ export default class UserDialog extends React.Component<IProps, IState>{
 			this.props.onSignIn.call(null, user)
 		}
 		const errorFn = (error: any) => {
-			alert(error)
+			switch(error.code){
+        case 210:
+          alert('用户名与密码不匹配')
+          break
+        default:
+          alert(error)
+          break
+      }
 		}
 		signIn(username, password, successFn, errorFn)  // leancloud 登录
 	}
@@ -65,11 +81,11 @@ export default class UserDialog extends React.Component<IProps, IState>{
 	// 改变表单内容是保存
 	public changeFormData = (key: string, e: any): void => {
 		// e.persist();
-		const stateCopy = JSON.parse(JSON.stringify(this.state))  // 用 JSON 深拷贝
+		const stateCopy = deepClone(JSON.stringify(this.state)  // 用 JSON 深拷贝
 		stateCopy.formData[key] = e.target.value
 		this.setState(stateCopy)
 	}
-	
+
 	public render() {
 		const signUpForm = (
 			<form className="signUp" onSubmit={this.signUp}> {/* 注册*/}
