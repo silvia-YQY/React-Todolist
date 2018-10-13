@@ -6,7 +6,7 @@ import 'normalize.css'
 import './reset.css'
 import * as Interface from './components/ALLInterface'
 import UserDialog from './components/UserDialog'
-import {getCurrentUser} from './components/leancloud'
+import { getCurrentUser, signOut } from './components/leancloud'
 
 
 // export interface IProps {
@@ -18,9 +18,9 @@ import {getCurrentUser} from './components/leancloud'
 export interface IState {
 	newTodo: string;
 	todoList: Interface.IlistItem[];
-	user:{
-		username:string,
-		id:string
+	user: {
+		username: string,
+		id: string
 	}
 }
 
@@ -30,8 +30,8 @@ class App extends React.Component<{}, IState> {
 		this.state = {
 			newTodo: 'pleace input something',
 			todoList: [],
-			user: getCurrentUser() || {}, 
-		}		
+			user: getCurrentUser() || {},
+		}
 	}
 
 	// 监听回车键，添加待办事项到list
@@ -67,40 +67,49 @@ class App extends React.Component<{}, IState> {
 		this.setState(this.state)
 	}
 
-	public onSignUp = (user:object) => {
+	public onSignUp = (user: object) => {
 		const stateCopy = JSON.parse(JSON.stringify(this.state))  // 用 JSON 深拷贝
 		stateCopy.user = user
 		this.setState(stateCopy)
 	}
 
+	public signOut = () => {
+		signOut()
+		const stateCopy = JSON.parse(JSON.stringify(this.state))
+		stateCopy.user = {}
+		this.setState(stateCopy)
+	}
+
 	public render() {
-		const todos = 
-		this.state.todoList
-				.filter((item:Interface.IlistItem, index)=> !item.deleted)
+		const todos =
+			this.state.todoList
+				.filter((item: Interface.IlistItem, index) => !item.deleted)
 				.map((item, index) => {
-			return (
-				<li key={item.id}>
-					<TodoItem todo={item} 
-					onToggle={this.toggle}
-					onDelete={this.delete} 
-					/>
-				</li>
-			)
-		})
+					return (
+						<li key={item.id}>
+							<TodoItem todo={item}
+								onToggle={this.toggle}
+								onDelete={this.delete}
+							/>
+						</li>
+					)
+				})
 		return (
 			<div className="App">
-				<h1>{this.state.user.username||'我'}的待办</h1>
+				<h1>{this.state.user.username || '我'}
+					的待办
+				{this.state.user.id ? <button onClick={this.signOut}>登出</button> : null}
+				</h1>
 				<div className="inputWrapper">
 					<TodoInput content={this.state.newTodo}
 						onChange={this.changeTitle}
 						onSubmit={this.addTodo}
-						
 					/>
 				</div>
 				<ol className="todoList">
 					{todos}
 				</ol>
-				{this.state.user.id ? null : <UserDialog onSignUp={this.onSignUp}/>}
+				{this.state.user.id ? null : <UserDialog onSignUp={this.onSignUp} />}
 			</div>
 
 		);
