@@ -1,5 +1,6 @@
 import * as React from 'react';
 import './UserDialog.css'
+import { signUp } from './leancloud'
 
 // export interface IProps {
 // 	name: string;
@@ -33,7 +34,15 @@ export default class UserDialog extends React.Component<{}, IState>{
 		})
 	}
 	public signUp = (e: any): void => {
-		console.log(1);
+		e.preventDefault()
+		const { username, password } = this.state.formData
+		const successFn = (user: string): void => {
+			console.log(user)
+		}
+		const errorFn = (error: any) => {
+			console.log(error)
+		}
+		signUp(username, password, successFn, errorFn)   // leancloud 注册
 	}
 	public signIn = (e: any): void => {
 		console.log(1);
