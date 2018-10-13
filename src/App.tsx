@@ -62,23 +62,33 @@ class App extends React.Component<{}, IState> {
 		this.setState(this.state)
 	}
 
+	// 标记是否删除
 	public delete = (event: any, todo: any): void => {
 		todo.deleted = true
 		this.setState(this.state)
 	}
-
-	public onSignUp = (user: object) => {
-		const stateCopy = JSON.parse(JSON.stringify(this.state))  // 用 JSON 深拷贝
-		stateCopy.user = user
-		this.setState(stateCopy)
-	}
-
+	
+	// 登出
 	public signOut = () => {
 		signOut()
 		const stateCopy = JSON.parse(JSON.stringify(this.state))
 		stateCopy.user = {}
 		this.setState(stateCopy)
 	}
+
+	// 注册
+	public onSignUp = (user: object) => {
+		const stateCopy = JSON.parse(JSON.stringify(this.state))  // 用 JSON 深拷贝
+		stateCopy.user = user
+		this.setState(stateCopy)
+	}
+
+	// 登录
+	public onSignIn = (user:any) => {
+    const stateCopy = JSON.parse(JSON.stringify(this.state)) 
+    stateCopy.user = user
+    this.setState(stateCopy)
+  }
 
 	public render() {
 		const todos =
@@ -109,7 +119,11 @@ class App extends React.Component<{}, IState> {
 				<ol className="todoList">
 					{todos}
 				</ol>
-				{this.state.user.id ? null : <UserDialog onSignUp={this.onSignUp} />}
+				{this.state.user.id ? 
+					null : 
+					<UserDialog 
+					onSignIn={this.onSignIn}
+					onSignUp={this.onSignUp} />}
 			</div>
 
 		);

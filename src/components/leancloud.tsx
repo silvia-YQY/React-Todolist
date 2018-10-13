@@ -10,7 +10,9 @@ AV.init({
 
 export default AV
 
-export function signUp(username: string, password: string, successFn: (user: object) => void, errorFn: any) {
+
+// 注册
+export function signUp(username: string, password: string, successFn: (user: object) => void, errorFn: (error: any) => void) {
 	// 新建 AVUser 对象实例
 	const user = new AV.User()
 	// 设置用户名
@@ -27,23 +29,38 @@ export function signUp(username: string, password: string, successFn: (user: obj
 	return undefined
 }
 
-export function getCurrentUser(){
-  const user = AV.User.current()
-  if(user){
-    return getUserFromAVUser(user)
-  }else{
-    return null
-  }
+
+// 登入
+export function signIn(username: string, password: string, successFn: (user: object) => void, errorFn: (error: any) => void) {
+	AV.User.logIn(username, password).then((loginedUser) => {
+		const user = getUserFromAVUser(loginedUser)
+		successFn.call(null, user)
+	}, (error) => {
+		errorFn.call(null, error)
+	})
 }
 
-export function signOut(){
-  AV.User.logOut()
-  return undefined
+
+// 获取当前用户信息
+export function getCurrentUser() {
+	const user = AV.User.current()
+	if (user) {
+		return getUserFromAVUser(user)
+	} else {
+		return null
+	}
 }
 
+// 获取用户信息
 function getUserFromAVUser(AVUser: any) {
 	return {
 		id: AVUser.id,
 		...AVUser.attributes
 	}
+}
+
+// 登出
+export function signOut() {
+	AV.User.logOut()
+	return undefined
 }

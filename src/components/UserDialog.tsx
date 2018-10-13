@@ -1,9 +1,10 @@
 import * as React from 'react';
 import './UserDialog.css'
-import { signUp } from './leancloud'
+import { signUp, signIn } from './leancloud'
 
 export interface IProps {
-	onSignUp:(e: any) => void;
+	onSignUp: (e: any) => void;
+	onSignIn: (e: any) => void;
 }
 
 export interface IState {
@@ -26,16 +27,20 @@ export default class UserDialog extends React.Component<IProps, IState>{
 			}
 		}
 	}
+
+	// 转换注册登录tab
 	public switch = (e: any): void => {
 		this.setState({
 			selected: e.target.value
 		})
 	}
+
+	// 注册
 	public signUp = (e: any): void => {
 		e.preventDefault()
 		const { username, password } = this.state.formData
 		const successFn = (user: object): void => {
-			console.log('user',user)
+			console.log('user', user)
 			this.props.onSignUp.call(null, user)
 		}
 		const errorFn = (error: any) => {
@@ -43,15 +48,28 @@ export default class UserDialog extends React.Component<IProps, IState>{
 		}
 		signUp(username, password, successFn, errorFn)   // leancloud 注册
 	}
+
+	// 登录
 	public signIn = (e: any): void => {
-		console.log(1);
+		e.preventDefault()
+		const { username, password } = this.state.formData
+		const successFn = (user: object) => {
+			this.props.onSignIn.call(null, user)
+		}
+		const errorFn = (error: any) => {
+			alert(error)
+		}
+		signIn(username, password, successFn, errorFn)  // leancloud 登录
 	}
+
+	// 改变表单内容是保存
 	public changeFormData = (key: string, e: any): void => {
 		// e.persist();
 		const stateCopy = JSON.parse(JSON.stringify(this.state))  // 用 JSON 深拷贝
 		stateCopy.formData[key] = e.target.value
 		this.setState(stateCopy)
 	}
+	
 	public render() {
 		const signUpForm = (
 			<form className="signUp" onSubmit={this.signUp}> {/* 注册*/}
