@@ -4,8 +4,8 @@ import TodoInput from "./components/TodoInput"
 import TodoItem from './components/TodoItem'
 import 'normalize.css'
 import './reset.css'
-import * as localStore from './components/localStore'
 import * as Interface from './components/ALLInterface'
+import UserDialog from './components/UserDialog'
 
 
 // export interface IProps {
@@ -88,6 +88,7 @@ class App extends React.Component<{}, IState> {
 				<ol className="todoList">
 					{todos}
 				</ol>
+				<UserDialog />
 			</div>
 
 		);
