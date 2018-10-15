@@ -133,6 +133,7 @@ export default class UserDialog extends React.Component<IProps, IState>{
 				</div>
 				<div className="row actions">
 					<button type="submit">登录</button>
+					<a href="javascript:;">忘记密码了？</a>
 				</div>
 			</form>
 		)
