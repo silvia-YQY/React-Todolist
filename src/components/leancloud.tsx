@@ -56,9 +56,9 @@ export function getCurrentUser() {
 // 重置邮箱
 export function sendPasswordResetEmail(email: string, successFn?: () => void, errorFn?: () => void){
   AV.User.requestPasswordReset(email).then((success: any) => {
-		//successFn && successFn.call(null)
+		// successFn && successFn.call(null)
 },  (error) => {
-	console.dir(error)
+	// errorFn && errorFn.call(null, error)
 })
 }
 

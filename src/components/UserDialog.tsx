@@ -118,6 +118,13 @@ export default class UserDialog extends React.Component<IProps, IState>{
 		sendPasswordResetEmail(this.state.formData.email)
 	}
 
+	// 返回
+	public returnToSignIn = () => {
+		const stateCopy = deepClone(this.state)
+		stateCopy.selectedTab = 'signInOrSignUp'
+		this.setState(stateCopy)
+	}
+
 	public render() {
 		// 注册弹框
 		const signUpForm = (
@@ -199,6 +206,7 @@ export default class UserDialog extends React.Component<IProps, IState>{
 					</div>
 					<div className="row actions">
 						<button type="submit">发送重置邮件</button>
+						<a href="#" onClick={this.returnToSignIn}>返回登录</a>
 					</div>
 				</form>
 			</div>
@@ -212,7 +220,7 @@ export default class UserDialog extends React.Component<IProps, IState>{
 						<label><input type="radio" value="signIn" onChange={this.switch} checked={this.state.selected === 'signIn'} /> 登录</label>
 					</nav> */}
 					<div className="panes">
-						{this.state.selectedTab === 'signUp' ? signInOrSignUp : forgotPassword}
+						{this.state.selectedTab === 'signInOrSignUp' ? signInOrSignUp : forgotPassword}
 						{/* {this.state.selected === 'signIn' ? signInForm : null} */}
 					</div>
 				</div>
