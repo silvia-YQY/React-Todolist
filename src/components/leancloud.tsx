@@ -12,7 +12,7 @@ export default AV
 
 
 // 注册
-export function signUp(username: string, password: string, successFn: (user: object) => void, errorFn: (error: any) => void) {
+export function signUp(email: string, username: string, password: string, successFn: (user: object) => void, errorFn: (error: any) => void) {
 	// 新建 AVUser 对象实例
 	const user = new AV.User()
 	// 设置用户名
@@ -20,6 +20,8 @@ export function signUp(username: string, password: string, successFn: (user: obj
 	// 设置密码
 	user.setPassword(password)
 	// 设置邮箱
+	user.setEmail(email)
+
 	user.signUp().then((loginedUser) => {
 		const users = getUserFromAVUser(loginedUser)
 		successFn.call(null, users)
@@ -49,6 +51,15 @@ export function getCurrentUser() {
 	} else {
 		return null
 	}
+}
+
+// 重置邮箱
+export function sendPasswordResetEmail(email: string, successFn?: () => void, errorFn?: () => void){
+  AV.User.requestPasswordReset(email).then((success: any) => {
+		//successFn && successFn.call(null)
+},  (error) => {
+	console.dir(error)
+})
 }
 
 // 获取用户信息
