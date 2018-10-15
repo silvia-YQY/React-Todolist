@@ -1,7 +1,7 @@
 import * as React from 'react';
 import './TodoItem.css'
 
-export interface IProps {
+interface IProps {
 	todo: {
 		id: number,
 		title: string,

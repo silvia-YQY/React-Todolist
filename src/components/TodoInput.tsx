@@ -1,7 +1,7 @@
 import * as React from 'react';
 import './TodoInput.css'
 
-export interface IProps {
+interface IProps {
 	content: string;
 	onSubmit: (e: any) => void
 	onChange: (e: any) => void

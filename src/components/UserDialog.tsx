@@ -1,21 +1,20 @@
 import * as React from 'react';
+import * as Interface from './ALLInterface'
 import './UserDialog.css'
 import { signUp, signIn, sendPasswordResetEmail } from './leancloud'
 import deepClone from './deepClone'
+import SignInOrSignUp from './SignInOrSignUp'
+import ForgotPasswordForm from './ForgotPasswordForm'
 
-export interface IProps {
+interface IProps {
 	onSignUp: (e: any) => void;
 	onSignIn: (e: any) => void;
 }
 
-export interface IState {
-	selected: string;
+interface IState {
+	// selected: string;
 	selectedTab: string,
-	formData: {
-		email: string,
-		username: string,
-		password: string,
-	}
+	formData: Interface.IformData
 }
 
 
@@ -23,7 +22,7 @@ export default class UserDialog extends React.Component<IProps, IState>{
 	constructor(props: any) {
 		super(props)
 		this.state = {
-			selected: 'signUp', // 'signIn'
+			// selected: 'signUp', // 'signIn'
 			selectedTab: 'signInOrSignUp', // 'forgotPassword'
 			formData: {
 				email: '',
@@ -33,12 +32,7 @@ export default class UserDialog extends React.Component<IProps, IState>{
 		}
 	}
 
-	// 转换注册登录tab
-	public switch = (e: any): void => {
-		this.setState({
-			selected: e.target.value
-		})
-	}
+
 
 	// 注册
 	public signUp = (e: any): void => {
@@ -97,10 +91,13 @@ export default class UserDialog extends React.Component<IProps, IState>{
 		signIn(username, password, successFn, errorFn)  // leancloud 登录
 	}
 
-	// 改变表单内容是保存
+	// 改变表单内容时保存
 	public changeFormData = (key: string, e: any): void => {
 		// e.persist();
 		const stateCopy = deepClone(this.state)  // 用 JSON 深拷贝
+		console.log(e);
+		console.log(key);
+
 		stateCopy.formData[key] = e.target.value
 		this.setState(stateCopy)
 	}
@@ -126,102 +123,27 @@ export default class UserDialog extends React.Component<IProps, IState>{
 	}
 
 	public render() {
-		// 注册弹框
-		const signUpForm = (
-			<form className="signUp" onSubmit={this.signUp}> {/* 注册*/}
-				<div className="row">
-					<label>邮箱</label>
-					<input type="text" value={this.state.formData.email}
-						onChange={this.changeFormData.bind(this, 'email')} />
-				</div>
-				<div className="row">
-					<label>用户名</label>
-					<input type="text" value={this.state.formData.username}
-						onChange={this.changeFormData.bind(this, 'username')} />
-				</div>
-				<div className="row">
-					<label>密码</label>
-					<input type="password" value={this.state.formData.password}
-						onChange={this.changeFormData.bind(this, 'password')} />
-				</div>
-				<div className="row actions">
-					<button type="submit">注册</button>
-				</div>
-			</form>
-		)
 
-		// 登录弹框
-		const signInForm = (
-			<form className="signIn" onSubmit={this.signIn}> {/* 登录*/}
-				<div className="row">
-					<label>用户名</label>
-					<input type="text" value={this.state.formData.username}
-						onChange={this.changeFormData.bind(this, 'username')} />
-				</div>
-				<div className="row">
-					<label>密码</label>
-					<input type="password" value={this.state.formData.password}
-						onChange={this.changeFormData.bind(this, 'password')} />
-				</div>
-				<div className="row actions">
-					<button type="submit">登录</button>
-					<a href="#" onClick={this.showForgotPassword}>忘记密码了？</a>
-				</div>
-			</form>
-		)
-
-		// 注册或者登录弹框
-		const signInOrSignUp = (
-			<div className="signInOrSignUp">
-				<nav>
-					<label>
-						<input type="radio" value="signUp"
-							checked={this.state.selected === 'signUp'}
-							onChange={this.switch}
-						/> 注册</label>
-					<label>
-						<input type="radio" value="signIn"
-							checked={this.state.selected === 'signIn'}
-							onChange={this.switch}
-						/> 登录</label>
-				</nav>
-				<div className="panes">
-					{this.state.selected === 'signUp' ? signUpForm : null}
-					{this.state.selected === 'signIn' ? signInForm : null}
-				</div>
-			</div>
-		)
-
-		// 忘记密码弹框
-		const forgotPassword = (
-			<div className="forgotPassword">
-				<h3>
-					重置密码
-        </h3>
-				<form className="forgotPassword" onSubmit={this.resetPassword}> {/* 登录*/}
-					<div className="row">
-						<label>邮箱</label>
-						<input type="text" value={this.state.formData.email}
-							onChange={this.changeFormData.bind(this, 'email')} />
-					</div>
-					<div className="row actions">
-						<button type="submit">发送重置邮件</button>
-						<a href="#" onClick={this.returnToSignIn}>返回登录</a>
-					</div>
-				</form>
-			</div>
-		)
 		return (
 
 			<div className="UserDialog-Wrapper">
 				<div className="UserDialog">
-					{/* <nav>
-						<label><input type="radio" value="signUp" onChange={this.switch} checked={this.state.selected === 'signUp'} /> 注册</label>
-						<label><input type="radio" value="signIn" onChange={this.switch} checked={this.state.selected === 'signIn'} /> 登录</label>
-					</nav> */}
 					<div className="panes">
-						{this.state.selectedTab === 'signInOrSignUp' ? signInOrSignUp : forgotPassword}
-						{/* {this.state.selected === 'signIn' ? signInForm : null} */}
+						{this.state.selectedTab === 'signInOrSignUp' ?
+							<SignInOrSignUp
+								formData={this.state.formData}
+								onSignIn={this.signIn}
+								onSignUp={this.signUp}
+								onChange={this.changeFormData.bind(this, '')}
+								onForgotPassword={this.showForgotPassword}
+							/> :
+							<ForgotPasswordForm
+								formData={this.state.formData}
+								onSubmit={this.resetPassword}
+								onChange={this.changeFormData.bind(this, '')}
+								onSignIn={this.returnToSignIn}
+							/>
+						}
 					</div>
 				</div>
 			</div>

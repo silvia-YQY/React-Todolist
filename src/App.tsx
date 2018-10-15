@@ -16,7 +16,7 @@ import deepClone from './components/deepClone'
 // }
 
 
-export interface IState {
+interface IState {
 	newTodo: string;
 	todoList: Interface.IlistItem[];
 	user: {
@@ -68,7 +68,7 @@ class App extends React.Component<{}, IState> {
 		todo.deleted = true
 		this.setState(this.state)
 	}
-	
+
 	// 登出
 	public signOut = () => {
 		signOut()
@@ -113,11 +113,11 @@ class App extends React.Component<{}, IState> {
 				<ol className="todoList">
 					{todos}
 				</ol>
-				{this.state.user.id ? 
-					null : 
-					<UserDialog 
-					onSignIn={this.onSignUpOrSignIn}
-					onSignUp={this.onSignUpOrSignIn} />}
+				{this.state.user.id ?
+					null :
+					<UserDialog
+						onSignIn={this.onSignUpOrSignIn}
+						onSignUp={this.onSignUpOrSignIn} />}
 			</div>
 
 		);
