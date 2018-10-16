@@ -9,7 +9,7 @@ interface IProps {
 	formData: Interface.IformData,
 	onSignUp: (e: any) => void;
 	onSignIn: (e: any) => void;
-	onChange: (e: any) => void;
+	onChange: (e: any,key:string) => void;
 	onForgotPassword: (e: any) => void;
 }
 
@@ -17,14 +17,13 @@ interface IState {
 	selected: string
 }
 
-
-
 export default class SignInOrSignUp extends React.Component<IProps, IState> {
 	constructor(props: any) {
 		super(props)
 		this.state = {
 			selected: 'signUp'
 		}
+
 	}
 
 	// 转换注册登录tab
@@ -33,6 +32,7 @@ export default class SignInOrSignUp extends React.Component<IProps, IState> {
 			selected: e.target.value
 		})
 	}
+
 
 	public render() {
 		return (

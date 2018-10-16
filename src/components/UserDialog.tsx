@@ -91,17 +91,6 @@ export default class UserDialog extends React.Component<IProps, IState>{
 		signIn(username, password, successFn, errorFn)  // leancloud 登录
 	}
 
-	// 改变表单内容时保存
-	public changeFormData = (key: string, e: any): void => {
-		// e.persist();
-		const stateCopy = deepClone(this.state)  // 用 JSON 深拷贝
-		console.log(e);
-		console.log(key);
-
-		stateCopy.formData[key] = e.target.value
-		this.setState(stateCopy)
-	}
-
 	// 忘记密码
 	public showForgotPassword = (): void => {
 		const stateCopy = deepClone(this.state)
@@ -122,6 +111,19 @@ export default class UserDialog extends React.Component<IProps, IState>{
 		this.setState(stateCopy)
 	}
 
+	
+	// 改变表单内容时保存
+	public changeFormData = ( e: any , key: string): void => {
+		// e.persist();
+		const stateCopy = deepClone(this.state)  
+		console.log(e);
+		console.log(key);
+
+		stateCopy.formData[key] = e.target.value
+		this.setState(stateCopy)
+	}
+
+
 	public render() {
 
 		return (
@@ -134,7 +136,7 @@ export default class UserDialog extends React.Component<IProps, IState>{
 								formData={this.state.formData}
 								onSignIn={this.signIn}
 								onSignUp={this.signUp}
-								onChange={this.changeFormData.bind(this, '')}
+								onChange={this.changeFormData.bind(this,'')}
 								onForgotPassword={this.showForgotPassword}
 							/> :
 							<ForgotPasswordForm

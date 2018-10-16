@@ -5,7 +5,7 @@ import * as Interface from './ALLInterface'
 interface IProps {
 	formData: Interface.IformData,
 	onSubmit: (e: any) => void;
-	onChange: (e: any) => void;
+	onChange: (e: any, key: string) => void;
 	onForgotPassword: (e: any) => void;
 }
 
