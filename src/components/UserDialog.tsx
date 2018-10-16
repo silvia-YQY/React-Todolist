@@ -115,7 +115,7 @@ export default class UserDialog extends React.Component<IProps, IState>{
 	// 改变表单内容时保存
 	public changeFormData = ( e: any , key: string): void => {
 		// e.persist();
-		const stateCopy = deepClone(this.state)  
+		const stateCopy = deepClone(this.state)
 		stateCopy.formData[key] = e.target.value
 		this.setState(stateCopy)
 	}

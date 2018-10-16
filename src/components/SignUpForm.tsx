@@ -15,13 +15,7 @@ export default class SignUpForm extends React.Component<IProps, {}> {
 			selected: 'signUp'
 		}
 
-		//this.onChange = this.onChange.bind(this,)
 	}
-
-	// public onChange =  (key: string, e: any) =>{
-	// 	this.props.onChange.bind(this,key)
-	// }
-
 
 	public render() {
 		return (
