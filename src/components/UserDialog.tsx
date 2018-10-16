@@ -116,9 +116,6 @@ export default class UserDialog extends React.Component<IProps, IState>{
 	public changeFormData = ( e: any , key: string): void => {
 		// e.persist();
 		const stateCopy = deepClone(this.state)  
-		console.log(e);
-		console.log(key);
-
 		stateCopy.formData[key] = e.target.value
 		this.setState(stateCopy)
 	}
@@ -136,13 +133,13 @@ export default class UserDialog extends React.Component<IProps, IState>{
 								formData={this.state.formData}
 								onSignIn={this.signIn}
 								onSignUp={this.signUp}
-								onChange={this.changeFormData.bind(this,'')}
+								onChange={this.changeFormData}
 								onForgotPassword={this.showForgotPassword}
 							/> :
 							<ForgotPasswordForm
 								formData={this.state.formData}
 								onSubmit={this.resetPassword}
-								onChange={this.changeFormData.bind(this, '')}
+								onChange={this.changeFormData}
 								onSignIn={this.returnToSignIn}
 							/>
 						}
