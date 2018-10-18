@@ -15,6 +15,22 @@ import deepClone from './components/deepClone'
 // 	// enthusiasmLevel?: number;
 // }
 
+import AV from './components/leancloud'
+// 声明类型
+const TodoFolder = AV.Object.extend('TodoFolder');
+// 新建对象
+const todoFolder = new TodoFolder();
+// 设置名称
+todoFolder.set('name', '工作');
+// 设置优先级
+todoFolder.set('priority', 1);
+todoFolder.save().then((todo: any) => {
+	console.log('objectId is ' + todo.id);
+}, (error: any) => {
+	console.error(error);
+});
+
+
 
 interface IState {
 	newTodo: string;

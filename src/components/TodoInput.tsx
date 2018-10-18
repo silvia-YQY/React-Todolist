@@ -35,16 +35,14 @@ interface IProps {
 
 
 function submit(props: IProps, e: any) {
-	if (e.key === 'Enter') {
-		props.onSubmit(e)
+	if (e.key === 'Enter' && e.target.value.trim() !== '') {
+      props.onSubmit(e)
 	}
 }
 function changeTitle(props: IProps, e: any) {
 	props.onChange(e)
 }
-// 搞不清楚 bind 用法的同学，请看完 MDN
-// https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Function/bind
-// 尤其是示例要看懂
+
 export default function (props: IProps) {
 	return <input type="text" value={props.content}
 		className="TodoInput"
