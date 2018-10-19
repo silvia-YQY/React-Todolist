@@ -33,6 +33,17 @@ class App extends React.Component<{}, IState> {
 			todoList: [],
 			user: getCurrentUser() || {},
 		}
+
+		const user = getCurrentUser()
+		if (user) {
+			console.log('eeeeee');
+			TodoModel.getByUser(user, (todos) => {
+				const stateCopy = deepClone(this.state)
+				stateCopy.todoList = todos
+				this.setState(stateCopy)
+			})
+		}
+
 	}
 
 	// 监听回车键，添加待办事项到list
@@ -51,11 +62,11 @@ class App extends React.Component<{}, IState> {
 			title: event.target.value,
 			status: '',
 			deleted: false,
-			id:0
+			id: '0'
 		}
-		TodoModel.create(newTodo, (id) => {
+		TodoModel.create(newTodo, (id:string) => {
 			console.log(id);
-			
+
 			newTodo.id = id
 			this.state.todoList.push(newTodo)
 			this.setState({
@@ -63,8 +74,7 @@ class App extends React.Component<{}, IState> {
 				todoList: this.state.todoList
 			})
 		}, (error) => {
-			const a = 5
-			console.log(error,a)
+			console.log(error)
 		})
 
 	}
@@ -78,15 +88,23 @@ class App extends React.Component<{}, IState> {
 	}
 
 	// 标记是否完成
-	public toggle = (e: any, todo: any): void => {
+	public toggle = (e: any, todo:Interface.IlistItem ): void => {
+		const oldStatus = todo.status
 		todo.status = todo.status === 'completed' ? '' : 'completed'
-		this.setState(this.state)
+		TodoModel.update(todo, () => {
+      this.setState(this.state)
+    }, (error) => {
+      todo.status = oldStatus
+      this.setState(this.state)
+    })
 	}
 
 	// 标记是否删除
-	public delete = (event: any, todo: any): void => {
-		todo.deleted = true
-		this.setState(this.state)
+	public delete = (event: any, todo: Interface.IlistItem): void => {
+		TodoModel.destroy(todo, () => {
+			todo.deleted = true
+			this.setState(this.state)
+		})
 	}
 
 	// 登出

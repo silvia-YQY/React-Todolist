@@ -12,44 +12,106 @@ AV.init({
 
 export default AV
 
-// interface obj {
-// 	status: string,
-// 	title: string,
-// 	deleted: boolean
-// }
 
 // 所有跟 Todo 相关的 LeanCloud 操作都放到这里
 export const TodoModel = {
-	getByUser(user:any, successFn:(todos:Interface.IlistItem) => void, errorFn: (error:any) => void){
-    // 文档见 https://leancloud.cn/docs/leanstorage_guide-js.html#批量操作
-    const query = new AV.Query('Todo')
-    query.find().then((response) => {
-      const array = response.map((t) => {
-				console.log(t);
-				
-        // return {id: t.id, ...t.attributes}
-      })
-      successFn.call(null, array)
-    }, (error) => {
-      // errorFn && errorFn.call(null, error)
-    })
-  },
-	create(obj: Interface.InewTodoobj, successFn: (id:number) => void, errorFn: (error:any) => void) {
-		const Todo = AV.Object.extend('Todo') 
+	getByUser(user: any, successFn?: (todos: Interface.IlistItem) => void, errorFn?: (error: any) => void) {
+		// 文档见 https://leancloud.cn/docs/leanstorage_guide-js.html#批量操作
+		const query = new AV.Query('Todo')
+		query.find().then((response) => {
+			const array = response.map((t) => {
+				console.log('attributes', t);
+				// return {id: t.id, ...t.attributes	}
+			})
+			if (successFn) {
+				successFn.call(null, array)
+			}
+		}, (error) => {
+			if (errorFn) {
+				errorFn.call(null, error)
+			}
+		})
+	},
+	create(obj: Interface.IlistItem, successFn?: (id: string) => void, errorFn?: (error: any) => void) {
+		const Todo = AV.Object.extend('Todo')
 		const todo = new Todo()
 		todo.set('title', obj.title)
 		todo.set('status', obj.status)
 		todo.set('deleted', obj.deleted)
+
+		// 根据文档 https://leancloud.cn/docs/acl-guide.html#单用户权限设置
+		// 这样做就可以让这个 Todo 只被当前用户看到
+		const acl = new AV.ACL()
+		acl.setPublicReadAccess(false) // 注意这里是 false
+		acl.setWriteAccess(AV.User.current(), true)
+		acl.setReadAccess(AV.User.current(), true)
+		todo.setACL(acl);
+
+
 		todo.save().then((response: any) => {
-			successFn.call(null, response.id)
+			if (successFn) {
+				successFn.call(null, response.id)
+			}
 		}, (error: any) => {
-			// errorFn && errorFn.call('null', error)
+			if (errorFn) {
+				errorFn.call(null, error)
+			}
 		});
 	},
-	// update() {
-	// },
-	// destroy() {
-	// }
+	update(obj: Interface.IlistItem, successFn?: () => void, errorFn?: (error: any) => void) {
+		// 文档 https://leancloud.cn/docs/leanstorage_guide-js.html#更新对象
+		const todo = AV.Object.createWithoutData('Todo', obj.id)
+
+		if (obj.title !== undefined) {
+			todo.set('title', obj.title)
+		}
+
+		if (obj.status !== undefined) {
+			todo.set('status', obj.status)
+		}
+
+		if (obj.deleted !== undefined) {
+			todo.set('deleted', obj.deleted)
+		}
+
+		// obj.status !== undefined && todo.set('status', obj.status)
+		// obj.deleted !== undefined && todo.set('deleted', obj.deleted)
+		// 为什么我要像上面那样写代码？
+		// 考虑如下场景
+		// update({id:1, title:'hi'})
+		// 调用 update 时，很有可能没有传 status 和 deleted
+		// 也就是说，用户只想「局部更新」
+		// 所以我们只 set 该 set 的
+		// 那么为什么不写成 title && todo.set('title', title) 呢，为什么要多此一举跟 undefined 做对比呢？
+		// 考虑如下场景
+		// update({id:1, title: '', status: null}}
+		// 用户想将 title 和 status 置空，我们要满足
+		todo.save().then((response) => {
+			if (successFn) {
+				successFn.call(null)
+			}
+		}, (error) => {
+			if (errorFn) {
+				errorFn.call(null, error)
+			}
+		})
+	},
+	destroy(obj: Interface.IlistItem, successFn?: () => void, errorFn?: () => void) {
+		// 文档 https://leancloud.cn/docs/leanstorage_guide-js.html#删除对象
+		// const todo = AV.Object.createWithoutData('Todo', todoId)
+		// todo.destroy().then((response) => {
+		// 	if (successFn) {
+		// 		successFn.call(null)
+		// 	}
+		// }, (error) => {
+		// 	if (errorFn) {
+		// 		errorFn.call(null, error)
+		// 	}
+		// });
+		// 我们不应该删除数据，而是将数据标记为 deleted
+		obj.deleted = true
+		TodoModel.update(obj, successFn, errorFn)
+	}
 }
 
 // 注册
