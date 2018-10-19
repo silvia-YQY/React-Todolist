@@ -1,4 +1,6 @@
 import * as AV from 'leancloud-storage'
+import * as Interface from './ALLInterface'
+
 
 const APP_ID = 'ir3TIhFQBxF8cAtld7O0PsHG-gzGzoHsz';
 const APP_KEY = 'hxW1GTLXAanOHxwQrSYlJLwk';
@@ -10,6 +12,31 @@ AV.init({
 
 export default AV
 
+// interface obj {
+// 	status: string,
+// 	title: string,
+// 	deleted: boolean
+// }
+
+export const TodoModel = {
+	// 所有跟 Todo 相关的 LeanCloud 操作都放到这里
+	create(obj: Interface.InewTodoobj, successFn: (id:number) => void, errorFn: (error:any) => void) {
+		const Todo = AV.Object.extend('Todo') // 记得把多余的分号删掉，我讨厌分号
+		const todo = new Todo()
+		todo.set('title', obj.title)
+		todo.set('status', obj.status)
+		todo.set('deleted', obj.deleted)
+		todo.save().then((response: any) => {
+			successFn.call(null, response.id)
+		}, (error: any) => {
+			// errorFn && errorFn.call(null, error)
+		});
+	},
+	// update() {
+	// },
+	// destroy() {
+	// }
+}
 
 // 注册
 export function signUp(email: string, username: string, password: string, successFn: (user: object) => void, errorFn: (error: any) => void) {
@@ -54,12 +81,12 @@ export function getCurrentUser() {
 }
 
 // 重置邮箱
-export function sendPasswordResetEmail(email: string, successFn?: () => void, errorFn?: () => void){
-  AV.User.requestPasswordReset(email).then((success: any) => {
+export function sendPasswordResetEmail(email: string, successFn?: () => void, errorFn?: () => void) {
+	AV.User.requestPasswordReset(email).then((success: any) => {
 		// successFn && successFn.call(null)
-},  (error) => {
-	// errorFn && errorFn.call(null, error)
-})
+	}, (error) => {
+		// errorFn && errorFn.call(null, error)
+	})
 }
 
 // 获取用户信息

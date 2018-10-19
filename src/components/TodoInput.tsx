@@ -1,6 +1,7 @@
 import * as React from 'react';
 import './TodoInput.css'
 
+
 interface IProps {
 	content: string;
 	onSubmit: (e: any) => void

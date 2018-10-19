@@ -1,13 +1,10 @@
 import * as React from 'react';
 import './TodoItem.css'
+import * as Interface from './ALLInterface'
+
 
 interface IProps {
-	todo: {
-		id: number,
-		title: string,
-		status: null,
-		deleted: boolean
-	};
+	todo: Interface.IlistItem,
 	onToggle: (e: any, todo: any) => void,
 	onDelete: (e: any, todo: any) => void
 }

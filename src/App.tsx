@@ -6,7 +6,7 @@ import 'normalize.css'
 import './reset.css'
 import * as Interface from './components/ALLInterface'
 import UserDialog from './components/UserDialog'
-import { getCurrentUser, signOut } from './components/leancloud'
+import { getCurrentUser, signOut, TodoModel } from './components/leancloud'
 import deepClone from './components/deepClone'
 
 
@@ -14,22 +14,6 @@ import deepClone from './components/deepClone'
 // 	// name: string;
 // 	// enthusiasmLevel?: number;
 // }
-
-import AV from './components/leancloud'
-// 声明类型
-const TodoFolder = AV.Object.extend('TodoFolder');
-// 新建对象
-const todoFolder = new TodoFolder();
-// 设置名称
-todoFolder.set('name', '工作');
-// 设置优先级
-todoFolder.set('priority', 1);
-todoFolder.save().then((todo: any) => {
-	console.log('objectId is ' + todo.id);
-}, (error: any) => {
-	console.error(error);
-});
-
 
 
 interface IState {
@@ -53,16 +37,34 @@ class App extends React.Component<{}, IState> {
 
 	// 监听回车键，添加待办事项到list
 	public addTodo = (event: any): void => {
-		this.state.todoList.push({
-			id: idMaker(),
+		// this.state.todoList.push({
+		// 	id: idMaker(),
+		// 	title: event.target.value,
+		// 	status: null,
+		// 	deleted: false
+		// })
+		// this.setState({
+		// 	newTodo: '',
+		// 	todoList: this.state.todoList
+		// })
+		const newTodo = {
 			title: event.target.value,
-			status: null,
-			deleted: false
+			status: '',
+			deleted: false,
+			id:0
+		}
+		TodoModel.create(newTodo, (id) => {
+			newTodo.id = id
+			this.state.todoList.push(newTodo)
+			this.setState({
+				newTodo: '',
+				todoList: this.state.todoList
+			})
+		}, (error) => {
+			console.log(error)
+			error.toString()
 		})
-		this.setState({
-			newTodo: '',
-			todoList: this.state.todoList
-		})
+
 	}
 
 	// 监听输入框改变
@@ -144,8 +146,8 @@ export default App;
 
 
 // id制造器
-let id = 0
-function idMaker() {
-	id += 1
-	return id
-}
+// let id = 0
+// function idMaker() {
+// 	id += 1
+// 	return id
+// }
