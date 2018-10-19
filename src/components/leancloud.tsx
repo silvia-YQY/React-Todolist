@@ -18,10 +18,24 @@ export default AV
 // 	deleted: boolean
 // }
 
+// 所有跟 Todo 相关的 LeanCloud 操作都放到这里
 export const TodoModel = {
-	// 所有跟 Todo 相关的 LeanCloud 操作都放到这里
+	getByUser(user:any, successFn:(todos:Interface.IlistItem) => void, errorFn: (error:any) => void){
+    // 文档见 https://leancloud.cn/docs/leanstorage_guide-js.html#批量操作
+    const query = new AV.Query('Todo')
+    query.find().then((response) => {
+      const array = response.map((t) => {
+				console.log(t);
+				
+        // return {id: t.id, ...t.attributes}
+      })
+      successFn.call(null, array)
+    }, (error) => {
+      // errorFn && errorFn.call(null, error)
+    })
+  },
 	create(obj: Interface.InewTodoobj, successFn: (id:number) => void, errorFn: (error:any) => void) {
-		const Todo = AV.Object.extend('Todo') // 记得把多余的分号删掉，我讨厌分号
+		const Todo = AV.Object.extend('Todo') 
 		const todo = new Todo()
 		todo.set('title', obj.title)
 		todo.set('status', obj.status)
@@ -29,7 +43,7 @@ export const TodoModel = {
 		todo.save().then((response: any) => {
 			successFn.call(null, response.id)
 		}, (error: any) => {
-			// errorFn && errorFn.call(null, error)
+			// errorFn && errorFn.call('null', error)
 		});
 	},
 	// update() {

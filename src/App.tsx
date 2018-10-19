@@ -54,6 +54,8 @@ class App extends React.Component<{}, IState> {
 			id:0
 		}
 		TodoModel.create(newTodo, (id) => {
+			console.log(id);
+			
 			newTodo.id = id
 			this.state.todoList.push(newTodo)
 			this.setState({
@@ -61,8 +63,8 @@ class App extends React.Component<{}, IState> {
 				todoList: this.state.todoList
 			})
 		}, (error) => {
-			console.log(error)
-			error.toString()
+			const a = 5
+			console.log(error,a)
 		})
 
 	}
