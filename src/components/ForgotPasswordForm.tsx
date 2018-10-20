@@ -1,5 +1,5 @@
 import * as React from 'react';
-import * as Interface from './ALLInterface'
+import * as Interface from '../utils/ALLInterface'
 
 interface IProps {
 	formData: Interface.IformData,

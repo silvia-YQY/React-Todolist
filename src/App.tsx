@@ -4,17 +4,15 @@ import TodoInput from "./components/TodoInput"
 import TodoItem from './components/TodoItem'
 import 'normalize.css'
 import './reset.css'
-import * as Interface from './components/ALLInterface'
+import * as Interface from './utils/ALLInterface'
 import UserDialog from './components/UserDialog'
 import { getCurrentUser, signOut, TodoModel } from './components/leancloud'
 import deepClone from './components/deepClone'
-
 
 // export interface IProps {
 // 	// name: string;
 // 	// enthusiasmLevel?: number;
 // }
-
 
 interface IState {
 	newTodo: string;
@@ -36,7 +34,6 @@ class App extends React.Component<{}, IState> {
 
 		const user = getCurrentUser()
 		if (user) {
-			console.log('eeeeee');
 			TodoModel.getByUser(user, (todos) => {
 				const stateCopy = deepClone(this.state)
 				stateCopy.todoList = todos
@@ -117,12 +114,12 @@ class App extends React.Component<{}, IState> {
 
 	// 注册or登录
 	public onSignUpOrSignIn = (user: object) => {
-		const stateCopy = deepClone(this.state)  // 用 JSON 深拷贝
+		const stateCopy = deepClone(this.state) 
 		stateCopy.user = user
 		this.setState(stateCopy)
 	}
 
-	public render() {
+	public render() {		
 		const todos =
 			this.state.todoList
 				.filter((item: Interface.IlistItem, index) => !item.deleted)

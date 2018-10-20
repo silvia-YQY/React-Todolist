@@ -1,4 +1,4 @@
-import * as Interface from './ALLInterface'
+import * as Interface from '../utils/ALLInterface'
 
 export function save(key: string, value: Interface.IlistItem[]) {
 	return window.localStorage.setItem(key, JSON.stringify(value))

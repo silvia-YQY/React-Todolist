@@ -5,7 +5,6 @@ export interface IlistItem {
 	deleted: boolean
 }
 
-
 export interface IformData {
 	email: string,
 	username: string,

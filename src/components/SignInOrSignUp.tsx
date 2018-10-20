@@ -1,7 +1,7 @@
 import * as React from 'react';
 import SignUpForm from './SignUpForm'
 import SignInForm from './SignInForm'
-import * as Interface from './ALLInterface'
+import * as Interface from '../utils/ALLInterface'
 
 
 

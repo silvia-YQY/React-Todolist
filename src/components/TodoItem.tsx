@@ -1,6 +1,6 @@
 import * as React from 'react';
 import './TodoItem.css'
-import * as Interface from './ALLInterface'
+import * as Interface from '../utils/ALLInterface'
 
 
 interface IProps {

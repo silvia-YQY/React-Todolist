@@ -1,5 +1,5 @@
 import * as AV from 'leancloud-storage'
-import * as Interface from './ALLInterface'
+import * as Interface from '../utils/ALLInterface'
 
 
 const APP_ID = 'ir3TIhFQBxF8cAtld7O0PsHG-gzGzoHsz';
@@ -98,16 +98,6 @@ export const TodoModel = {
 	},
 	destroy(obj: Interface.IlistItem, successFn?: () => void, errorFn?: () => void) {
 		// 文档 https://leancloud.cn/docs/leanstorage_guide-js.html#删除对象
-		// const todo = AV.Object.createWithoutData('Todo', todoId)
-		// todo.destroy().then((response) => {
-		// 	if (successFn) {
-		// 		successFn.call(null)
-		// 	}
-		// }, (error) => {
-		// 	if (errorFn) {
-		// 		errorFn.call(null, error)
-		// 	}
-		// });
 		// 我们不应该删除数据，而是将数据标记为 deleted
 		obj.deleted = true
 		TodoModel.update(obj, successFn, errorFn)
