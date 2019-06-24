@@ -12,21 +12,20 @@ AV.init({
 
 export default AV
 
-
 // 所有跟 Todo 相关的 LeanCloud 操作都放到这里
 export const TodoModel = {
 	getByUser(user: any, successFn?: (todos: Interface.IlistItem) => void, errorFn?: (error: any) => void) {
 		// 文档见 https://leancloud.cn/docs/leanstorage_guide-js.html#批量操作
 		const query = new AV.Query('Todo')
-		query.find().then((response) => {
-			const array = response.map((t) => {
+		query.find().then((response:any) => {
+			const array = response.map((t:any) => {
 				console.log('attributes', t);
 				// return {id: t.id, ...t.attributes	}
 			})
 			if (successFn) {
 				successFn.call(null, array)
 			}
-		}, (error) => {
+		}, (error:any) => {
 			if (errorFn) {
 				errorFn.call(null, error)
 			}
